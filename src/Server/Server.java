@@ -4,7 +4,6 @@ import MySql.SqlOperation;
 import MySql.User;
 import net.sf.json.JSONObject;
 
-import javax.xml.crypto.Data;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,7 +17,6 @@ public class Server {
 	private ArrayList<User> userInDataBase=new ArrayList<>();
 	private ArrayList<User> userOnline=new ArrayList<User>();
 	private DataInputStream inputStream=null;
-	private DataOutputStream outputStream=null;
 
 	public static void main(String[] args) {
 		try {

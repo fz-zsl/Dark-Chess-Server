@@ -8,11 +8,12 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class ChessBoard {
-	private int flipCounter=0;
+	public int flipCounter;
+	public int currentSide;
 	private int[][] chessIndex=new int[10][7];
 	private int[][] objectIndex=new int[10][7];
 	private boolean[][] chessFlipped=new boolean[10][7];
-	private ArrayList<Integer> allPossibleMoves=new ArrayList<>();
+	protected ArrayList<Integer> allPossibleMoves;
 	public static final int[] indexToChess=new int[]{
 			0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 6, 6,
 			10,11,11,12,12,13,13,14,14,15,15,15,15,15,16,16
@@ -156,6 +157,9 @@ public class ChessBoard {
 	}
 
 	public ChessBoard(Socket... sockets) {
+		flipCounter=0;
+		currentSide=-1;
+		allPossibleMoves=new ArrayList<>();
 		Random rand=new Random(System.currentTimeMillis());
 		ArrayList<pairs> chessStatus=new ArrayList<>();
 		for (int i=0;i<32;++i) chessStatus.add(new pairs(i,rand.nextDouble()));
@@ -163,15 +167,14 @@ public class ChessBoard {
 		for (int i=1;i<=8;++i) {
 			for (int j=1;j<=4;++j) {
 				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
-				for (Socket socket:sockets) {
-					JSONObject tmpMessage=new JSONObject();
-					tmpMessage.put("signalType",2);
-					tmpMessage.put("actionType",6);
-					tmpMessage.put("objectIndex",(i-1)*4+j-1);
-					tmpMessage.put("curX",i);
-					tmpMessage.put("curY",j);
+				JSONObject tmpMessage=new JSONObject();
+				tmpMessage.put("signalType",2);
+				tmpMessage.put("actionType",6);
+				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+				tmpMessage.put("curX",i);
+				tmpMessage.put("curY",j);
+				for (Socket socket:sockets)
 					Server.sendMessage(socket,tmpMessage);
-				}
 			}
 		}
 	}

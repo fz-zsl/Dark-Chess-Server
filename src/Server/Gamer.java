@@ -33,6 +33,10 @@ public class Gamer {
 		return score;
 	}
 
+	public Socket getGamerSocket() {
+		return gamerSocket;
+	}
+
 	public ArrayList<Integer> getEatenChessCount() {
 		ArrayList<Integer> result=new ArrayList<>();
 		for (int i=0;i<7;++i) result.add(eatenChessCount[i]);
