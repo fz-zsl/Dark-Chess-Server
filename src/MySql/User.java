@@ -24,6 +24,11 @@ public class User {
 		this.loseGameCounter=loseGameCounter;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("UserName = %s\nEncryptedPassword = %s\nWin: %d\nLose: %d",userName,encryptedPassword,winGameCounter,loseGameCounter);
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -80,7 +85,7 @@ public class User {
 		this.game=game;
 	}
 
-	public Game getGame(Game game) {
+	public Game getGame() {
 		return game;
 	}
 

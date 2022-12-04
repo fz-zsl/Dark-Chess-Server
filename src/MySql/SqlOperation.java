@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class SqlOperation {
 	public static boolean addNewUser(User newUser) throws Exception {
 		//Connect to sql
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Connection connection=DriverManager.getConnection("jdbc:sqlserver://localhost:9018;DatabaseName=UserDB","root","DarkChessAdmin");
+		Class.forName("org.sqlite.JDBC");
+		Connection connection=DriverManager.getConnection("jdbc:sqlite:D:\\DarkChessServer\\database\\DarkChessUsers.sqlite");
 
 		//Seek for existing users
-		String sqlInfo="select * from darkchess.user where userName = ?";
+		String sqlInfo="select * from main.Users where userName = ?";
 		PreparedStatement preparedStatement=connection.prepareStatement(sqlInfo);
 		preparedStatement.setString(1, newUser.getUserName());
 		ResultSet resultSet=preparedStatement.executeQuery();
@@ -27,8 +27,8 @@ public class SqlOperation {
 		}
 
 		//Add new user
-		sqlInfo="insert into darkchess.user(userName, encPassword) values(?, ?)";
-		preparedStatement=connection.prepareStatement(sqlInfo);
+		String sqlInsertInfo="insert into main.Users(UserName, EncryptedPassword) values(?, ?)";
+		preparedStatement=connection.prepareStatement(sqlInsertInfo);
 
 		//Fill in the information
 		preparedStatement.setString(1, newUser.getUserName());
@@ -49,11 +49,12 @@ public class SqlOperation {
 
 	public static void loadAllUsers(ArrayList<User> userArrayList) throws Exception {
 		//Connect to sql
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection connection=DriverManager.getConnection("jdbc:mysql://localhost:8080,DatabaseName=UserDB","root","DarkChessAdmin");
+		Class.forName("org.sqlite.JDBC");
+		Connection connection=DriverManager.getConnection("jdbc:sqlite:D:\\DarkChessServer\\database\\DarkChessUsers.sqlite");
+		System.out.printf("[%s]SQLite is connected successfully.\n",Server.getServerTime());
 
 		//Get all user
-		String sqlInfo="select * from darkchess.user";
+		String sqlInfo="select * from main.Users";
 		PreparedStatement preparedStatement=connection.prepareStatement(sqlInfo);
 		ResultSet resultSet=preparedStatement.executeQuery();
 		while (resultSet.next()) {
@@ -63,11 +64,11 @@ public class SqlOperation {
 
 	public static void updateUser(User user) throws Exception {
 		//Connect to sql
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Connection connection=DriverManager.getConnection("jdbc:sqlserver://localhost:9018;DatabaseName=UserDB","root","DarkChessAdmin");
+		Class.forName("org.sqlite.JDBC");
+		Connection connection=DriverManager.getConnection("jdbc:sqlite:D:\\DarkChessServer\\database\\DarkChessUsers.sqlite");
 
 		//Update user's information
-		String sqlInfo="update darkchess.user set winGameCounter = ?, loseGameCounter = ? where userName = ?";
+		String sqlInfo="update main.Users set winGameCounter = ?, loseGameCounter = ? where userName = ?";
 		PreparedStatement preparedStatement=connection.prepareStatement(sqlInfo);
 		preparedStatement.setInt(1,user.getWinGameCounter());
 		preparedStatement.setInt(2,user.getLoseGameCounter());

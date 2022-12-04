@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="DarkChessSQL" uuid="c2e02139-1667-4ff6-b062-75033f16f9aa">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="DarkChessSQL" uuid="2aedc0e0-5c48-4e06-95ef-317f1c5f6e19">
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:9018</jdbc-url>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\DarkChessServer\database\DarkChessUsers.sqlite</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

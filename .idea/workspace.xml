@@ -4,9 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V1.1.1">
+    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.0.1">
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_8_9_1_javadoc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/sys.zb4BAA.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_25.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DarkChessServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DarkChessServer.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MySql/SqlOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/SqlOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MySql/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,19 +44,22 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2IR1LcIxPJScwzU4XOxpNYRdKny" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/AppData/Roaming/JetBrains/IntelliJIdea2022.3/jdbc-drivers/MySQL ConnectorJ/8.0.25/mysql-connector-java-8.0.25.jar&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/SQLite/sqlite-jdbc-3.8.9.1.jar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -56,7 +73,8 @@
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
       &quot;sqlserver.localdb&quot;,
-      &quot;mysql&quot;
+      &quot;mysql&quot;,
+      &quot;sqlite&quot;
     ]
   }
 }</component>
@@ -72,7 +90,15 @@
       <workItem from="1670130312759" duration="49000" />
       <workItem from="1670130378402" duration="13692000" />
       <workItem from="1670146143697" duration="2509000" />
-      <workItem from="1670151192351" duration="9882000" />
+      <workItem from="1670151192351" duration="12414000" />
+      <workItem from="1670226864685" duration="641000" />
+      <workItem from="1670386817464" duration="194000" />
+      <workItem from="1670389900210" duration="1035000" />
+      <workItem from="1670394362769" duration="2999000" />
+      <workItem from="1670410087432" duration="336000" />
+      <workItem from="1670410440917" duration="10000" />
+      <workItem from="1670412679415" duration="14000" />
+      <workItem from="1670461369159" duration="596000" />
     </task>
     <task id="LOCAL-00001" summary="V1.0.0">
       <created>1670148658388</created>
@@ -102,7 +128,21 @@
       <option name="project" value="LOCAL" />
       <updated>1670159319026</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="V1.2.0">
+      <created>1670161453180</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1670161453180</updated>
+    </task>
+    <task id="LOCAL-00006" summary="V2.0.0">
+      <created>1670163618932</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1670163618932</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,10 +160,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="V1.0.0" />
     <MESSAGE value="V1.0.1" />
     <MESSAGE value="V1.1.0" />
     <MESSAGE value="V1.1.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="V1.1.1" />
+    <MESSAGE value="V1.2.0" />
+    <MESSAGE value="V2.0.0" />
+    <MESSAGE value="V2.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2.0.1" />
   </component>
 </project>
