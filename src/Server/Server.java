@@ -4,7 +4,7 @@ import MySql.SqlOperation;
 import MySql.User;
 import net.sf.json.JSONObject;
 
-import javax.lang.model.type.ArrayType;
+import javax.xml.crypto.Data;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -46,6 +46,7 @@ public class Server {
 			System.out.printf("[%s]Server.Server is online.\n",getServerTime());
 
 			//ready for users to login
+			User pendingUser=null;
 			while (true) {
 				Socket userSocket=serverSocket.accept();
 				if (userSocket==null) continue;
@@ -65,6 +66,11 @@ public class Server {
 						tmpMessage.put("signalType",1);
 						tmpMessage.put("actionType",1);
 						tmpMessage.put("result",true);
+						if (pendingUser!=null) {
+							Game game=new Game(pendingUser,user);
+							pendingUser.setGame(game);
+							user.setGame(game);
+						}
 						sendMessage(user.getUserSocket(),tmpMessage);
 					}
 					else {
@@ -74,10 +80,18 @@ public class Server {
 						tmpMessage.put("result",false);
 						sendMessage(user.getUserSocket(),tmpMessage);
 					}
-				} else if (actionType==2) {
+				} else if (actionType==2) {//login
 					boolean mk=false;
 					for (User cur:userInDataBase) {
 						if (cur.getUserName().equals(user.getUserName())) {
+							if (!cur.tryPassword(user.getEncryptedPassword())) {
+								JSONObject tmpMessage=new JSONObject();
+								tmpMessage.put("signalType",1);
+								tmpMessage.put("actionType",1);
+								tmpMessage.put("result",false);
+								sendMessage(user.getUserSocket(),tmpMessage);
+								break;
+							}
 							user.setWinGameCounter(cur.getWinGameCounter());
 							user.setLoseGameCounter(cur.getLoseGameCounter());
 							userOnline.add(user);
@@ -90,6 +104,14 @@ public class Server {
 					tmpMessage.put("actionType",2);
 					tmpMessage.put("result",mk);
 					sendMessage(user.getUserSocket(),tmpMessage);
+					if (mk) {
+						if (pendingUser!=null) {
+							Game game=new Game(pendingUser,user);
+							pendingUser.setGame(game);
+							user.setGame(game);
+						}
+						else pendingUser=user;
+					}
 				} else {
 					JSONObject tmpMessage=new JSONObject();
 					tmpMessage.put("signalType",5);
@@ -103,9 +125,9 @@ public class Server {
 		}
 	}
 
-	public void sendMessage(Socket userSocket,JSONObject messageInfo) {
+	public static void sendMessage(Socket userSocket,JSONObject messageInfo) {
 		try {
-			outputStream=new DataOutputStream(userSocket.getOutputStream());
+			DataOutputStream outputStream=new DataOutputStream(userSocket.getOutputStream());
 			outputStream.writeUTF(messageInfo.toString());
 		} catch (IOException ioException) {
 			System.out.printf("[%s]Message is rejected by the client.",getServerTime());

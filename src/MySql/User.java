@@ -1,5 +1,7 @@
 package MySql;
 
+import Server.Game;
+
 import java.math.BigInteger;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -11,6 +13,7 @@ public class User {
 	private Socket userSocket;
 	private int winGameCounter;
 	private int loseGameCounter;
+	private Game game;
 
 	public User() {}
 
@@ -73,6 +76,14 @@ public class User {
 		++loseGameCounter;
 	}
 
+	public void setGame(Game game) {
+		this.game=game;
+	}
+
+	public Game getGame(Game game) {
+		return game;
+	}
+
 	public static String encryptByMD5(String plainText) {
 		byte[] secretBytes=null;
 		try {
@@ -85,7 +96,7 @@ public class User {
 		return md5code;
 	}
 
-	public boolean tryPassword(String plainPassword) {
-		return encryptedPassword.equals(encryptByMD5(plainPassword));
+	public boolean tryPassword(String password) {
+		return encryptedPassword.equals(password);
 	}
 }
