@@ -6,6 +6,7 @@ import oop.GameEndsException;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game {
 	private Gamer gamer1;
@@ -84,6 +85,7 @@ public class Game {
 					tmpMessage.put("curY",clickY);
 					Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
 					Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+					tmpMessage=new JSONObject();
 					tmpMessage.put("signalType",4);
 					tmpMessage.put("actionType",1);
 					tmpMessage.put("eatenChessCount1",gamer1.getEatenChessCount());
@@ -96,7 +98,6 @@ public class Game {
 			//there is no previous click - first click
 			if (!chessBoard.getFlipped(clickX,clickY)) {
 				//flip
-				System.out.println("Let's Flip - first click!");
 				chessBoard.flipChess(clickX,clickY);
 				if (chessBoard.flipCounter==1) {
 					chessBoard.currentSide=chessBoard.getChessIndex(clickX,clickY)/10;
@@ -125,5 +126,127 @@ public class Game {
 		}
 	}
 
+	//Operations
 
+	private int[] operationType=new int[100005];
+	private int[] srcPosition=new int[100005];
+	private int[] destPosition=new int[100005];
+	public int sizeOfStack=0;
+
+	/*
+	0 - flip (pos)
+	1 - move (src,dest)
+	2 - eat  (pos,object index of the eaten chess)
+	 */
+
+	public void addOperationToStack(int op,int... positions) {
+		JSONObject tmpMessage=new JSONObject();
+		operationType[sizeOfStack]=op;
+		if (op==0) {//flip a chess
+			srcPosition[sizeOfStack]=positions[0];
+		} else if (op==1) {//move a chess
+			srcPosition[sizeOfStack]=positions[0];
+			destPosition[sizeOfStack]=positions[1];
+		} else if (op==2) {//eat a chess
+			srcPosition[sizeOfStack]=positions[0];
+			destPosition[sizeOfStack]=positions[1];
+			if (positions[1]%50==0) {
+				tmpMessage=new JSONObject();
+				tmpMessage.put("signalType",5);
+				tmpMessage.put("actionType",2);
+				tmpMessage.put("generalType",1);
+				Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+				Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+			}
+			if (positions[1]%50==16) {
+				tmpMessage=new JSONObject();
+				tmpMessage.put("signalType",5);
+				tmpMessage.put("actionType",2);
+				tmpMessage.put("generalType",0);
+				Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+				Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+			}
+		}
+		++sizeOfStack;
+		if (op<2) chessBoard.currentSide^=1;
+	}
+
+	public int popOperationFromStack() {
+		--sizeOfStack;
+		if (operationType[sizeOfStack]<2) chessBoard.currentSide^=1;
+		return operationType[sizeOfStack]*10000+
+				srcPosition[sizeOfStack]*100+
+				destPosition[sizeOfStack];
+	}
+
+	//Undo previous operation
+	public void undoPreviousOperation() throws Exception {
+		JSONObject tmpMessage=new JSONObject();
+		chessBoard.clearPossibleMoves();
+		tmpMessage=new JSONObject();
+		tmpMessage.put("signalType",2);
+		tmpMessage.put("actionType",5);
+		Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+		Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+		int lastOperation=popOperationFromStack();
+		int type=lastOperation/10000;
+		int srcPosition=lastOperation%10000/100;
+		int destPosition=lastOperation%100;
+		if (type==0) {
+			chessBoard.flipBackChess(srcPosition/10,srcPosition%10);
+			tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",3);
+			tmpMessage.put("actionType",1);
+			tmpMessage.put("objectIndex",chessBoard.getObjectIndex(srcPosition/10,srcPosition%10));
+			Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+		} else if (type==1) {
+			chessBoard.moveChess(destPosition,srcPosition);
+			tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",2);
+			tmpMessage.put("actionType",2);
+			tmpMessage.put("objectIndex",chessBoard.getObjectIndex(destPosition/10,destPosition%10));
+			tmpMessage.put("preX",destPosition/10);
+			tmpMessage.put("preY",destPosition%10);
+			tmpMessage.put("curX",srcPosition/10);
+			tmpMessage.put("curY",srcPosition%10);
+			Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+		} else if (type==2) {
+			if (destPosition%50<16) {//undo: black side eats red chess
+				gamer2.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]]);
+			} else {//undo: red side eats black chess
+				gamer1.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]]);
+			}
+			lastOperation=popOperationFromStack();
+			int destOfLastOperation=lastOperation%100;
+			int srcOfLastOperation=lastOperation%10000/100;
+			chessBoard.moveChess(destOfLastOperation,srcOfLastOperation);
+			chessBoard.chessInit(srcPosition/10,srcPosition%10,destPosition%50,destPosition/50>0);
+			tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",2);
+			tmpMessage.put("actionType",2);
+			tmpMessage.put("objectIndex",chessBoard.getObjectIndex(destOfLastOperation/10,destOfLastOperation%10));
+			tmpMessage.put("preX",destOfLastOperation/10);
+			tmpMessage.put("preY",destOfLastOperation%10);
+			tmpMessage.put("curX",srcOfLastOperation/10);
+			tmpMessage.put("curY",srcOfLastOperation%10);
+			Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+			tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",4);
+			tmpMessage.put("actionType",1);
+			tmpMessage.put("eatenChessCount1",gamer1.getEatenChessCount());
+			tmpMessage.put("eatenChessCount2",gamer2.getEatenChessCount());
+			Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+			tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",3);
+			tmpMessage.put("actionType",2);
+			tmpMessage.put("curX",destOfLastOperation/10);
+			tmpMessage.put("curY",destOfLastOperation%10);
+			Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
+		}
+	}
 }
