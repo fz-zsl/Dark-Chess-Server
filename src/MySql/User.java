@@ -80,7 +80,7 @@ public class User {
 		this.game=game;
 	}
 
-	public Game getGame(Game game) {
+	public Game getGame() {
 		return game;
 	}
 

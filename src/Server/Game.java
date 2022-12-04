@@ -20,6 +20,18 @@ public class Game {
 		chessBoard=new ChessBoard(user1.getUserSocket(),user2.getUserSocket());
 	}
 
+	public Gamer getGamer1() {
+		return gamer1;
+	}
+
+	public Gamer getGamer2() {
+		return gamer2;
+	}
+
+	public ChessBoard getChessBoard() {
+		return chessBoard;
+	}
+
 	public void clickOnBoard(int clickX, int clickY) throws Exception	{
 		/*
 		values of clickType:

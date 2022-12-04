@@ -3,6 +3,7 @@ package Server;
 import MySql.SqlOperation;
 import MySql.User;
 import net.sf.json.JSONObject;
+import oop.GameEndsException;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,11 +12,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Server {
 	private ArrayList<User> userInDataBase=new ArrayList<>();
-	private ArrayList<User> userOnline=new ArrayList<User>();
+	private ArrayList<User> userOnline=new ArrayList<>();
 	private DataInputStream inputStream=null;
 
 	public static void main(String[] args) {
@@ -142,7 +144,7 @@ public class Server {
 
 		@Override
 		public void run() {
-			//Todo: put generalInit somewhere in the program
+			JSONObject tmpMessage;
 			try {
 				DataInputStream userCallStream=new DataInputStream(socket.getInputStream());
 				while (true) {
@@ -151,23 +153,103 @@ public class Server {
 					int signalType=userCallInfo.getInt("signalType");
 					int actionType=userCallInfo.getInt("actionType");
 					if (signalType!=2&&signalType!=3) {
-						JSONObject tmpMessage=new JSONObject();
+						tmpMessage=new JSONObject();
 						tmpMessage.put("signalType",5);
 						tmpMessage.put("actionType",1);
 						sendMessage(socket,tmpMessage);
 						continue;
 					}
-					if (signalType==3) {//Todo
-						JSONObject tmpMessage=new JSONObject();
-						tmpMessage.put("Info","Todo: send back rank list.");
-						sendMessage(socket,tmpMessage);
+					User caller=null;
+					for (User i:userOnline)
+						if (i.getUserSocket()==socket) {
+							caller=i;
+							break;
+						}
+					Game game=caller.getGame();
+					if (signalType==3) {
+						sendMessage(socket,getRankList(caller));
 						continue;
 					}
-					//Todo
+					if (actionType==1) {
+						try {
+							game.clickOnBoard(userCallInfo.getInt("clickX"),userCallInfo.getInt("clickY"));
+						} catch (GameEndsException gameEndsException) {
+							tmpMessage=new JSONObject();
+							tmpMessage.put("signalType",5);
+							tmpMessage.put("actionType",3);
+							tmpMessage.put("Info",gameEndsException.toString());
+							sendMessage(game.getGamer1().getGamerSocket(),tmpMessage);
+							sendMessage(game.getGamer2().getGamerSocket(),tmpMessage);
+						} catch (Exception exception) {
+							exception.printStackTrace();
+						}
+					} else if (actionType==2) {
+						try {
+							game.undoPreviousOperation();
+						} catch (Exception exception) {
+							exception.printStackTrace();
+						}
+					} else if (actionType==3) {
+						User partner=null;
+						for (User i:userOnline)
+							if (i.getGame()==game&&i!=caller) {
+								partner=i;
+								break;
+							}
+						Game newGame=new Game(caller,partner);
+						caller.setGame(newGame);
+						partner.setGame(newGame);
+					} else if (actionType==4) {
+						tmpMessage=new JSONObject();
+						tmpMessage.put("signalType",5);
+						tmpMessage.put("actionType",5);
+						tmpMessage.put("ObjectIndex",game.getChessBoard().getObjectIndex(userCallInfo.getInt("clickX"),userCallInfo.getInt("clickY")));
+						sendMessage(socket,tmpMessage);
+					} else {
+						tmpMessage=new JSONObject();
+						tmpMessage.put("signalType",5);
+						tmpMessage.put("actionType",1);
+						sendMessage(socket,tmpMessage);
+					}
 				}
 			} catch (IOException ioException) {
 				ioException.printStackTrace();
 			}
 		}
+	}
+
+	private class UserAndCredit implements Comparable<UserAndCredit> {
+		public String userName;
+		public double credit;
+
+		public UserAndCredit(String userName,double credit) {
+			this.userName=userName;
+			this.credit=credit;
+		}
+
+		@Override
+		public int compareTo(UserAndCredit o) {
+			Double cre=this.credit;
+			return -cre.compareTo(o.credit);
+		}
+	}
+
+	private JSONObject getRankList(User user) {
+		JSONObject result=new JSONObject();
+		result.put("signalType",4);
+		result.put("actionType",2);
+		ArrayList<UserAndCredit> rankList=new ArrayList<>();
+		for (User cur:userInDataBase)
+			rankList.add(new UserAndCredit(cur.getUserName(),cur.getWinRate()));
+		rankList.sort(Comparator.reverseOrder());
+		result.put("rankList",rankList);
+		result.put("userScore",user.getWinRate());
+		for (int i=0;i<rankList.size();++i)
+			if (rankList.get(i).userName.equals(user.getUserName())) {
+				result.put("userRank",i);
+				break;
+			}
+		result.put("userCount",rankList.size());
+		return result;
 	}
 }
