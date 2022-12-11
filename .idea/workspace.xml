@@ -4,23 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.0.1">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_8_9_1_javadoc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c2e02139-1667-4ff6-b062-75033f16f9aa/storage_v2/_src_/schema/sys.zb4BAA.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_25.xml" beforeDir="false" />
+    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.0.3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DarkChessServer.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DarkChessServer.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MySql/SqlOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/SqlOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MySql/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,6 +153,7 @@
     <MESSAGE value="V1.2.0" />
     <MESSAGE value="V2.0.0" />
     <MESSAGE value="V2.0.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2.0.1" />
+    <MESSAGE value="V2.0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2.0.3" />
   </component>
 </project>

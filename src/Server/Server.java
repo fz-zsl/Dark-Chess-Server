@@ -112,6 +112,7 @@ public class Server {
 							Game game=new Game(pendingUser,user);
 							pendingUser.setGame(game);
 							user.setGame(game);
+							pendingUser=null;
 						}
 						else pendingUser=user;
 					}
