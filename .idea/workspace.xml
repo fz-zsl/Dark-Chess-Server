@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.0.3">
+    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.0.4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MySql/SqlOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/SqlOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +67,11 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Server" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -84,6 +93,13 @@
       <workItem from="1670410440917" duration="10000" />
       <workItem from="1670412679415" duration="14000" />
       <workItem from="1670461369159" duration="596000" />
+      <workItem from="1670773707511" duration="3095000" />
+      <workItem from="1670777024668" duration="107000" />
+      <workItem from="1670811059738" duration="256000" />
+      <workItem from="1670812059756" duration="15000" />
+      <workItem from="1670833341013" duration="1553000" />
+      <workItem from="1670838520996" duration="12000" />
+      <workItem from="1670853722909" duration="129000" />
     </task>
     <task id="LOCAL-00001" summary="V1.0.0">
       <created>1670148658388</created>
@@ -127,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670163618932</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="V2.0.4">
+      <created>1670756726444</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1670756726444</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +177,7 @@
     <MESSAGE value="V2.0.0" />
     <MESSAGE value="V2.0.1" />
     <MESSAGE value="V2.0.3" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2.0.3" />
+    <MESSAGE value="V2.0.4" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2.0.4" />
   </component>
 </project>

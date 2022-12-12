@@ -2,11 +2,8 @@ package Server;
 
 import MySql.User;
 import net.sf.json.JSONObject;
-import oop.GameEndsException;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Game {
 	private Gamer gamer1;
@@ -107,6 +104,7 @@ public class Game {
 				}
 			}
 		} else {
+			if (chessBoard.getObjectIndex(clickX,clickY)<0) return;
 			//there is no previous click - first click
 			if (!chessBoard.getFlipped(clickX,clickY)) {
 				//flip

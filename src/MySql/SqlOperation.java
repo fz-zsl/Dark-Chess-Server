@@ -38,12 +38,12 @@ public class SqlOperation {
 		if (modifiedInfoCounter>0) {
 			System.out.printf("[%s]User %s has been registered successfully.\n",Server.getServerTime(),newUser.getUserName());
 			connection.close();
-			preparedStatement.close();
+//			preparedStatement.close();
 			return true;
 		}
 		System.out.printf("[%s]User %s's request for registration has been rejected.\n",Server.getServerTime(),newUser.getUserName());
 		connection.close();
-		preparedStatement.close();
+//		preparedStatement.close();
 		return false;
 	}
 

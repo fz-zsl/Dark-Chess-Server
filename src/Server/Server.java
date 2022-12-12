@@ -60,6 +60,7 @@ public class Server {
 				user.setUserName(infoPackage.getString("userName"));
 				user.setEncryptedPassword(User.encryptByMD5(infoPackage.getString("password")));
 				user.setUserSocket(userSocket);
+				System.out.println("["+getServerTime()+"]New user:\n"+user.toString());
 				int actionType=infoPackage.getInt("actionType");
 				if (actionType==1) {//register
 					if (SqlOperation.addNewUser(user)) {
@@ -69,12 +70,23 @@ public class Server {
 						tmpMessage.put("signalType",1);
 						tmpMessage.put("actionType",1);
 						tmpMessage.put("result",true);
+						sendMessage(user.getUserSocket(),tmpMessage);
 						if (pendingUser!=null) {
 							Game game=new Game(pendingUser,user);
 							pendingUser.setGame(game);
 							user.setGame(game);
+							pendingUser=null;
+							tmpMessage=new JSONObject();
+							tmpMessage.put("signalType",1);
+							tmpMessage.put("actionType",3);
+							tmpMessage.put("result",true);
 						}
-						sendMessage(user.getUserSocket(),tmpMessage);
+						else {
+							pendingUser=user;
+							tmpMessage.put("signalType",1);
+							tmpMessage.put("actionType",3);
+							tmpMessage.put("result",false);
+						}
 					}
 					else {
 						JSONObject tmpMessage=new JSONObject();
@@ -113,8 +125,18 @@ public class Server {
 							pendingUser.setGame(game);
 							user.setGame(game);
 							pendingUser=null;
+							tmpMessage.put("signalType",1);
+							tmpMessage.put("actionType",3);
+							tmpMessage.put("result",true);
+							sendMessage(user.getUserSocket(),tmpMessage);
 						}
-						else pendingUser=user;
+						else {
+							pendingUser=user;
+							tmpMessage.put("signalType",1);
+							tmpMessage.put("actionType",3);
+							tmpMessage.put("result",false);
+							sendMessage(user.getUserSocket(),tmpMessage);
+						}
 					}
 				} else {
 					JSONObject tmpMessage=new JSONObject();
