@@ -9,6 +9,8 @@ public class Game {
 	private Gamer gamer1;
 	private Gamer gamer2;
 	private ChessBoard chessBoard;
+	private int lastMoveTimeStamp=0;
+	private Gamer lastGamer;
 	public static final int[] scorePerChess={30,10,5,5,5,1,5};
 
 	public Game(User user1, User user2) {
@@ -27,6 +29,24 @@ public class Game {
 
 	public ChessBoard getChessBoard() {
 		return chessBoard;
+	}
+
+	public Gamer getLastGamer() {
+		return lastGamer;
+	}
+
+	public int getLastMoveTimeStamp() {
+		return getLastMoveTimeStamp();
+	}
+
+	public void setLastMoveTimeStamp(int lastMoveTimeStamp) {
+		this.lastMoveTimeStamp=lastMoveTimeStamp;
+	}
+
+	public void switchSide() {
+		lastMoveTimeStamp=(int)System.currentTimeMillis();
+		if (lastGamer==gamer1) lastGamer=gamer2;
+		else lastGamer=gamer1;
 	}
 
 	public void clickOnBoard(int clickX, int clickY) throws Exception	{
@@ -178,12 +198,18 @@ public class Game {
 			}
 		}
 		++sizeOfStack;
-		if (op<2) chessBoard.currentSide^=1;
+		if (op<2) {
+			chessBoard.currentSide^=1;
+			switchSide();
+		}
 	}
 
 	public int popOperationFromStack() {
 		--sizeOfStack;
-		if (operationType[sizeOfStack]<2) chessBoard.currentSide^=1;
+		if (operationType[sizeOfStack]<2) {
+			chessBoard.currentSide^=1;
+			switchSide();
+		}
 		return operationType[sizeOfStack]*10000+
 				srcPosition[sizeOfStack]*100+
 				destPosition[sizeOfStack];

@@ -19,6 +19,7 @@ public class Server {
 	public ArrayList<User> userInDataBase=new ArrayList<>();
 	private ArrayList<User> userOnline=new ArrayList<>();
 	private DataInputStream inputStream=null;
+	private int timeLimit=30000;
 
 	public static void main(String[] args) {
 		try {
@@ -196,6 +197,30 @@ public class Server {
 						sendMessage(socket,getRankList(caller));
 						continue;
 					}
+
+					if (caller.getGame().equals(game.getLastGamer().getGamerName())) {
+						//a click of the same user
+						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==0) {
+							tmpMessage=new JSONObject();
+							tmpMessage.put("signalType",5);
+							tmpMessage.put("actionType",5);
+							sendMessage(socket,tmpMessage);
+							//Todo: mute the sentence if there's no time limit
+							continue;
+						}
+					}
+					else {
+						//a click of a different user
+						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==1) {
+							tmpMessage=new JSONObject();
+							tmpMessage.put("signalType",5);
+							tmpMessage.put("actionType",5);
+							sendMessage(socket,tmpMessage);
+							//Todo: mute the sentence if there's no time limit
+							continue;
+						}
+					}
+
 					if (actionType==1) {
 						try {
 							game.clickOnBoard(userCallInfo.getInt("clickX"),userCallInfo.getInt("clickY"));
@@ -241,6 +266,20 @@ public class Server {
 			} catch (IOException ioException) {
 				ioException.printStackTrace();
 			}
+		}
+	}
+
+	class waitTread implements Runnable {
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			JSONObject tmpMessage=new JSONObject();
+			tmpMessage.put("signalType",0);
+			tmpMessage.put("actionType",0);
 		}
 	}
 
