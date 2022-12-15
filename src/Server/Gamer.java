@@ -16,6 +16,7 @@ public class Gamer {
 		gamerName=user.getUserName();
 		score=0;
 		gamerSocket=user.getUserSocket();
+		System.out.printf("[%s]Gamer: %s %s\n",Server.getServerTime(),gamerName,gamerSocket);
 		eatenChessCount=new int[7];
 	}
 

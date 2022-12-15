@@ -82,6 +82,7 @@ public class User {
 	}
 
 	public void setGame(Game game) {
+		System.out.println(game.getGamer1()+"==="+game.getGamer2());
 		this.game=game;
 	}
 

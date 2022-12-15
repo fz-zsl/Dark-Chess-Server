@@ -73,20 +73,27 @@ public class Server {
 						tmpMessage.put("result",true);
 						sendMessage(user.getUserSocket(),tmpMessage);
 						if (pendingUser!=null) {
-							Game game=new Game(pendingUser,user);
-							pendingUser.setGame(game);
-							user.setGame(game);
-							pendingUser=null;
 							tmpMessage=new JSONObject();
 							tmpMessage.put("signalType",1);
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",true);
+							tmpMessage.put("partnerName",user.getUserName());
+							sendMessage(pendingUser.getUserSocket(),tmpMessage);
+							tmpMessage.remove("partnerName");
+							tmpMessage.put("partnerName",pendingUser.getUserName());
+							sendMessage(user.getUserSocket(),tmpMessage);
+							Game game=new Game(pendingUser,user);
+							pendingUser.setGame(game);
+							user.setGame(game);
+							pendingUser=null;
 						}
 						else {
 							pendingUser=user;
 							tmpMessage.put("signalType",1);
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",false);
+							sendMessage(pendingUser.getUserSocket(),tmpMessage);
+							continue;
 						}
 					}
 					else {
@@ -122,14 +129,19 @@ public class Server {
 					sendMessage(user.getUserSocket(),tmpMessage);
 					if (mk) {
 						if (pendingUser!=null) {
-							Game game=new Game(pendingUser,user);
-							pendingUser.setGame(game);
-							user.setGame(game);
-							pendingUser=null;
 							tmpMessage.put("signalType",1);
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",true);
+							sendMessage(pendingUser.getUserSocket(),tmpMessage);
 							sendMessage(user.getUserSocket(),tmpMessage);
+							Game game=new Game(pendingUser,user);
+//							System.out.println("ARRD:"+game);
+//							System.out.println(game.getGamer1()+"!!!"+game.getGamer2());
+							pendingUser.setGame(game);
+							user.setGame(game);
+							new Thread(new ServerThread(pendingUser.getUserSocket())).start();
+							new Thread(new ServerThread(userSocket)).start();
+							pendingUser=null;
 						}
 						else {
 							pendingUser=user;
@@ -137,6 +149,7 @@ public class Server {
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",false);
 							sendMessage(user.getUserSocket(),tmpMessage);
+							continue;
 						}
 					}
 				} else {
@@ -144,8 +157,8 @@ public class Server {
 					tmpMessage.put("signalType",5);
 					tmpMessage.put("actionType",1);
 					sendMessage(user.getUserSocket(),tmpMessage);
+					continue;
 				}
-				new Thread(new ServerThread(userSocket)).start();
 			}
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
@@ -153,6 +166,7 @@ public class Server {
 	}
 
 	public static void sendMessage(Socket userSocket,JSONObject messageInfo) {
+//		System.out.printf("[%s]To %s: %s\n",Server.getServerTime(),userSocket.toString(),messageInfo.toString());
 		try {
 			DataOutputStream outputStream=new DataOutputStream(userSocket.getOutputStream());
 			outputStream.writeUTF(messageInfo.toString());
@@ -167,6 +181,7 @@ public class Server {
 
 		public ServerThread(Socket socket) {
 			this.socket=socket;
+//			System.out.printf("!!!!!!!!!!!!!!!!!!!!!!%s\n",socket);
 		}
 
 		@Override
@@ -192,35 +207,43 @@ public class Server {
 							caller=i;
 							break;
 						}
+					if (caller==null) {
+						System.out.println("No such user.");
+					}
+					System.out.printf("[%s]%d %d\n",caller.getUserSocket().toString(),signalType,actionType);
 					Game game=caller.getGame();
 					if (signalType==3) {
 						sendMessage(socket,getRankList(caller));
 						continue;
 					}
-
-					if (caller.getGame().equals(game.getLastGamer().getGamerName())) {
-						//a click of the same user
-						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==0) {
-							tmpMessage=new JSONObject();
-							tmpMessage.put("signalType",5);
-							tmpMessage.put("actionType",5);
-							sendMessage(socket,tmpMessage);
-							//Todo: mute the sentence if there's no time limit
-							continue;
-						}
-					}
-					else {
-						//a click of a different user
-						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==1) {
-							tmpMessage=new JSONObject();
-							tmpMessage.put("signalType",5);
-							tmpMessage.put("actionType",5);
-							sendMessage(socket,tmpMessage);
-							//Todo: mute the sentence if there's no time limit
-							continue;
-						}
+					if (game==null) {
+						System.out.println("No such game.");
 					}
 
+//					if (caller.getUserName().equals(game.getLastGamer().getGamerName())) {
+//						//a click of the same user
+//						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==0) {
+//							tmpMessage=new JSONObject();
+//							tmpMessage.put("signalType",5);
+//							tmpMessage.put("actionType",5);
+//							sendMessage(socket,tmpMessage);
+//							//Todo: delete the sentence if there's no time limit
+////							continue;
+//						}
+//					}
+//					else {
+//						//a click of a different user
+//						if ((System.currentTimeMillis()-game.getLastMoveTimeStamp())/timeLimit%2==1) {
+//							tmpMessage=new JSONObject();
+//							tmpMessage.put("signalType",5);
+//							tmpMessage.put("actionType",5);
+//							sendMessage(socket,tmpMessage);
+//							//Todo: delete the sentence if there's no time limit
+////							continue;
+//						}
+//					}
+
+					System.out.println(game.getGamer1()+" "+game.getGamer2());
 					if (actionType==1) {
 						try {
 							game.clickOnBoard(userCallInfo.getInt("clickX"),userCallInfo.getInt("clickY"));

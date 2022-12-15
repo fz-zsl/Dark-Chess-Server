@@ -157,6 +157,7 @@ public class ChessBoard {
 	}
 
 	public ChessBoard(Socket... sockets) {
+		System.out.printf("[%s]New chessboard.\n",Server.getServerTime());
 		flipCounter=0;
 		currentSide=-1;
 		allPossibleMoves=new ArrayList<>();
@@ -164,6 +165,11 @@ public class ChessBoard {
 		ArrayList<pairs> chessStatus=new ArrayList<>();
 		for (int i=0;i<32;++i) chessStatus.add(new pairs(i,rand.nextDouble()));
 		chessStatus.sort(Comparator.naturalOrder());
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		for (int i=1;i<=8;++i) {
 			for (int j=1;j<=4;++j) {
 				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
@@ -173,9 +179,93 @@ public class ChessBoard {
 				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
 				tmpMessage.put("curX",i);
 				tmpMessage.put("curY",j);
-				for (Socket socket:sockets)
-					Server.sendMessage(socket,tmpMessage);
+				Server.sendMessage(sockets[0],tmpMessage);
+				Server.sendMessage(sockets[1],tmpMessage);
 			}
 		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[1],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[1],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[0],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[0],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[1],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[1],tmpMessage);
+//			}
+//		}
+//		for (int i=1;i<=8;++i) {
+//			for (int j=1;j<=4;++j) {
+//				chessInit(i,j,chessStatus.get((i-1)*4+j-1).index);
+//				JSONObject tmpMessage=new JSONObject();
+//				tmpMessage.put("signalType",2);
+//				tmpMessage.put("actionType",6);
+//				tmpMessage.put("objectIndex",chessStatus.get((i-1)*4+j-1).index);
+//				tmpMessage.put("curX",i);
+//				tmpMessage.put("curY",j);
+//				Server.sendMessage(sockets[0],tmpMessage);
+//			}
+//		}
 	}
 }

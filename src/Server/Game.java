@@ -14,12 +14,18 @@ public class Game {
 	public static final int[] scorePerChess={30,10,5,5,5,1,5};
 
 	public Game(User user1, User user2) {
-		Gamer gamer1=new Gamer(user1);
-		Gamer gamer2=new Gamer(user2);
+		/*Gamer */gamer1=new Gamer(user1);
+		/*Gamer */gamer2=new Gamer(user2);
+//		System.out.println(gamer1);
+//		System.out.println(gamer2);
 		chessBoard=new ChessBoard(user1.getUserSocket(),user2.getUserSocket());
+//		System.out.println(this.getGamer1());
+//		System.out.println(this.getGamer2());
+//		System.out.println("ADDR:"+this);
 	}
 
 	public Gamer getGamer1() {
+//		System.out.println("get" + gamer1);
 		return gamer1;
 	}
 
@@ -45,8 +51,19 @@ public class Game {
 
 	public void switchSide() {
 		lastMoveTimeStamp=(int)System.currentTimeMillis();
-		if (lastGamer==gamer1) lastGamer=gamer2;
-		else lastGamer=gamer1;
+		JSONObject tmpMessage=new JSONObject();
+		tmpMessage.put("signalType",4);
+		tmpMessage.put("actionType",3);
+		if (lastGamer==gamer1) {
+			lastGamer=gamer2;
+			tmpMessage.put("currentSide",0);
+		}
+		else {
+			lastGamer=gamer1;
+			tmpMessage.put("currentSide",0);
+		}
+		Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
+		Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
 	}
 
 	public void clickOnBoard(int clickX, int clickY) throws Exception	{
@@ -89,9 +106,9 @@ public class Game {
 				if (eatReport>=0) {
 					addOperationToStack(2,clickX*10+clickY,eatReport);
 					if (eatReport%50<16) {//black side eats red chess
-						gamer2.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]]);
+						gamer2.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10]);
 					} else {//red side eats black chess
-						gamer1.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]]);
+						gamer1.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10]);
 					}
 				}
 				chessBoard.clearPossibleMoves();
@@ -109,16 +126,9 @@ public class Game {
 					tmpMessage=new JSONObject();
 					tmpMessage.put("signalType",2);
 					tmpMessage.put("actionType",3);
-					tmpMessage.put("objectIndex",chessBoard.getObjectIndex(clickX,clickY));
+					tmpMessage.put("objectIndex",eatReport%50);
 					tmpMessage.put("curX",clickX);
 					tmpMessage.put("curY",clickY);
-					Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
-					Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
-					tmpMessage=new JSONObject();
-					tmpMessage.put("signalType",4);
-					tmpMessage.put("actionType",1);
-					tmpMessage.put("eatenChessCount1",gamer1.getEatenChessCount());
-					tmpMessage.put("eatenChessCount2",gamer2.getEatenChessCount());
 					Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
 					Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
 				}
@@ -142,6 +152,10 @@ public class Game {
 				tmpMessage.put("signalType",2);
 				tmpMessage.put("actionType",1);
 				tmpMessage.put("objectIndex",chessBoard.getObjectIndex(clickX,clickY));
+				System.out.println(gamer1);
+				System.out.println(gamer2);
+				System.out.println(gamer1.getGamerSocket());
+				System.out.println(gamer2.getGamerSocket());
 				Server.sendMessage(gamer1.getGamerSocket(),tmpMessage);
 				Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
 			} else if (chessBoard.getChessIndex(clickX,clickY)/10==chessBoard.currentSide) {
@@ -250,9 +264,9 @@ public class Game {
 			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
 		} else if (type==2) {
 			if (destPosition%50<16) {//undo: black side eats red chess
-				gamer2.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]]);
+				gamer2.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10]);
 			} else {//undo: red side eats black chess
-				gamer1.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]]);
+				gamer1.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10]);
 			}
 			lastOperation=popOperationFromStack();
 			int destOfLastOperation=lastOperation%100;
