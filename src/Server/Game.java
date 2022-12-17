@@ -107,9 +107,9 @@ public class Game {
 				if (eatReport>=0) {
 					addOperationToStack(2,clickX*10+clickY,eatReport);
 					if (eatReport%50<16) {//black side eats red chess
-						gamer2.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10]);
+						gamer2.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10],this);
 					} else {//red side eats black chess
-						gamer1.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10]);
+						gamer1.modifyPoints(scorePerChess[ChessBoard.indexToChess[eatReport%50]%10],this);
 					}
 					JSONObject scoreMessage=new JSONObject();
 					scoreMessage.put("signalType",4);
@@ -272,9 +272,9 @@ public class Game {
 			Server.sendMessage(gamer2.getGamerSocket(),tmpMessage);
 		} else if (type==2) {
 			if (destPosition%50<16) {//undo: black side eats red chess
-				gamer2.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10]);
+				gamer2.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10],this);
 			} else {//undo: red side eats black chess
-				gamer1.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10]);
+				gamer1.modifyPoints(-scorePerChess[ChessBoard.indexToChess[destPosition%50]%10],this);
 			}
 			JSONObject scoreMessage=new JSONObject();
 			scoreMessage.put("signalType",4);

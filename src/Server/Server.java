@@ -2,7 +2,6 @@ package Server;
 
 import MySql.SqlOperation;
 import MySql.User;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import oop.GameEndsException;
 
@@ -62,6 +61,7 @@ public class Server {
 				user.setUserName(infoPackage.getString("userName"));
 				user.setEncryptedPassword(User.encryptByMD5(infoPackage.getString("password")));
 				user.setUserSocket(userSocket);
+				user.setAvatar(infoPackage.getString("headPic"));
 				System.out.println("["+getServerTime()+"]New user:\n"+user.toString());
 				int actionType=infoPackage.getInt("actionType");
 				if (actionType==1) {//register
@@ -79,9 +79,12 @@ public class Server {
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",true);
 							tmpMessage.put("partnerName",user.getUserName());
+							tmpMessage.put("headPic",user.getAvatar());
 							sendMessage(pendingUser.getUserSocket(),tmpMessage);
 							tmpMessage.remove("partnerName");
+							tmpMessage.remove("headPic");
 							tmpMessage.put("partnerName",pendingUser.getUserName());
+							tmpMessage.put("headPic",pendingUser.getAvatar());
 							sendMessage(user.getUserSocket(),tmpMessage);
 							Game game=new Game(pendingUser,user);
 							pendingUser.setGame(game);
@@ -137,9 +140,12 @@ public class Server {
 							tmpMessage.put("actionType",3);
 							tmpMessage.put("result",true);
 							tmpMessage.put("partnerName",user.getUserName());
+							tmpMessage.put("headPic",user.getAvatar());
 							sendMessage(pendingUser.getUserSocket(),tmpMessage);
 							tmpMessage.remove("partnerName");
+							tmpMessage.remove("headPic");
 							tmpMessage.put("partnerName",pendingUser.getUserName());
+							tmpMessage.put("headPic",pendingUser.getAvatar());
 							sendMessage(user.getUserSocket(),tmpMessage);
 							Game game=new Game(pendingUser,user);
 							pendingUser.setGame(game);
@@ -222,10 +228,16 @@ public class Server {
 							JSONObject currentMessage=new JSONObject();
 							currentMessage.put("signalType",4);
 							currentMessage.put("actionType",6);
-							currentMessage.put("currentSide",game.getChessBoard().currentSide);
+//							currentMessage.put("currentSide",game.getChessBoard().currentSide);
 							currentMessage.put("redScore",game.getGamer1().getScore());
 							currentMessage.put("blackScore",game.getGamer2().getScore());
+							currentMessage.put("infoSide",game.getChessBoard().currentSide==0);
+							currentMessage.put("yourSide",0);
 							Server.sendMessage(game.getGamer1().getGamerSocket(),currentMessage);
+							currentMessage.remove("yourSide");
+							currentMessage.remove("infoSide");
+							currentMessage.put("yourSide",1);
+							currentMessage.put("infoSide",game.getChessBoard().currentSide==1);
 							Server.sendMessage(game.getGamer2().getGamerSocket(),currentMessage);
 						}
 						continue;
@@ -259,14 +271,14 @@ public class Server {
 
 					System.out.println(game.getGamer1()+" "+game.getGamer2());
 					if (actionType==1) {
-						String avatar=userCallInfo.getString("headPic");
-						JSONObject avatarMessage=new JSONObject();
-						avatarMessage.put("signalType",4);
-						avatarMessage.put("actionType",5);
-						avatarMessage.put("headPic",avatar);
-						if (caller.getUserSocket()==game.getGamer2().getGamerSocket())
-							sendMessage(game.getGamer1().getGamerSocket(),avatarMessage);
-						else sendMessage(game.getGamer2().getGamerSocket(),avatarMessage);
+//						String avatar=userCallInfo.getString("headPic");
+//						JSONObject avatarMessage=new JSONObject();
+//						avatarMessage.put("signalType",4);
+//						avatarMessage.put("actionType",5);
+//						avatarMessage.put("headPic",avatar);
+//						if (caller.getUserSocket()==game.getGamer2().getGamerSocket())
+//							sendMessage(game.getGamer1().getGamerSocket(),avatarMessage);
+//						else sendMessage(game.getGamer2().getGamerSocket(),avatarMessage);
 						try {
 							game.clickOnBoard(userCallInfo.getInt("clickX"),userCallInfo.getInt("clickY"));
 						} catch (GameEndsException gameEndsException) {

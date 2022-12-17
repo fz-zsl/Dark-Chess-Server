@@ -14,6 +14,7 @@ public class User {
 	private int winGameCounter;
 	private int loseGameCounter;
 	private Game game;
+	private String avatar;
 
 	public User() {}
 
@@ -88,6 +89,14 @@ public class User {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar=avatar;
+	}
+
+	public String getAvatar() {
+		return avatar;
 	}
 
 	public static String encryptByMD5(String plainText) {

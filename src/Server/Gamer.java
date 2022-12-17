@@ -20,10 +20,11 @@ public class Gamer {
 		eatenChessCount=new int[7];
 	}
 
-	public void modifyPoints(int delta) throws GameEndsException {
+	public void modifyPoints(int delta,Game game) throws GameEndsException {
 		score+=delta;
+
 		if (score>=60)
-			throw new GameEndsException(gamerName);
+			throw new GameEndsException(gamerName,game);
 	}
 
 	public String getGamerName() {
