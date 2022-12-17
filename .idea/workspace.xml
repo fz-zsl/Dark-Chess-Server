@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.1.0">
+    <list default="true" id="e03c1070-afb3-4f03-9e50-ff97fea03efd" name="变更" comment="V2.2.0">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database/DarkChessUsers.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MySql/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MySql/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/ChessBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server/Gamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Gamer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -105,7 +103,13 @@
       <workItem from="1670918956450" duration="1039000" />
       <workItem from="1670928765273" duration="2421000" />
       <workItem from="1671012667240" duration="20106000" />
-      <workItem from="1671082074627" duration="1770000" />
+      <workItem from="1671082074627" duration="2297000" />
+      <workItem from="1671091492398" duration="626000" />
+      <workItem from="1671113674292" duration="2613000" />
+      <workItem from="1671119688874" duration="645000" />
+      <workItem from="1671164036935" duration="1804000" />
+      <workItem from="1671237032063" duration="1132000" />
+      <workItem from="1671238253925" duration="4115000" />
     </task>
     <task id="LOCAL-00001" summary="V1.0.0">
       <created>1670148658388</created>
@@ -170,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670931081642</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="V2.2.0">
+      <created>1671088377023</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1671088377023</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +211,7 @@
     <MESSAGE value="V2.0.4" />
     <MESSAGE value="V2.0.5" />
     <MESSAGE value="V2.1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2.1.0" />
+    <MESSAGE value="V2.2.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="V2.2.0" />
   </component>
 </project>
